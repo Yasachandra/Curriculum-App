@@ -1,0 +1,13 @@
+.custom-inline-block{
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+    width: 220px;
+    height: 180px;
+    margin-bottom: 5%;
+}
+
+.custom-panel>.panel-heading {
+    color: #fff;
+    background-color: #00b6ff;
+}

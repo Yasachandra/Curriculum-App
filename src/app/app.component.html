@@ -1,0 +1,34 @@
+
+<div class="row mB30">
+  <div class="col-sm-3">
+    <input 
+        type="text" 
+        [(ngModel)]="searchChapter" 
+        class="form-control round" 
+        (keyup)="fetchingSubjects()"
+        placeholder="Search Chapter" />
+  </div>
+  <div class="col-sm-3 form-inline">
+    <select [(ngModel)]="selectedSubject" name="subject" style="min-width: 100%;" id="subject" class="form-control custom-select round" (change)="fetchingSubjects()" required>
+        <option value="" selected> -- All Subjects -- </option>
+        <option *ngFor="let selectedSubject of subjects">{{ selectedSubject }}</option>
+    </select>
+  </div>
+</div>
+<hr>
+<!-- Subject panels -->
+<ng-container *ngIf="subjectPanels">
+  <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 custom-inline-block" *ngFor="let subjectPanel of subjectPanels; let i=index">
+      <div class="panel panel-default custom-panel" style="min-height: 210px;">
+          <div class="panel-heading">
+              <h4 class="panel-title mB10"> {{ subjectPanel.chapter | truncate:19 }}</h4>
+              <div class="clearfix"></div>
+          </div>
+          <div class="panel-body">
+              <div class="row"><input type="text" id="searchTopic" class="form-control round" (keyup)="searchingTopic($event,i)" placeholder="Search Topic"/></div>
+              <div class="row" *ngFor="let topic of subjectPanel.topics">{{ topic | truncate:28}}</div>
+          </div>
+      </div>
+  </div>
+</ng-container>
+
