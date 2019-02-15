@@ -8,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   selectedSubject = "";
   searchChapter = "";
+  searchTopic = "";
   subjects = ["Mathematics","Physics","Chemistry"]
+  showTruncatedSubject = false;
+  showTruncatedTopic = false;
+  limitTopicsFlag = true;
   topicSubjectDetails = {
       "Mathematics": [
         {
@@ -44,17 +48,6 @@ export class AppComponent implements OnInit {
             "Exponential form",
             "Definition of constant term",
             "Definition of coefficient"
-          ]
-        },
-        {
-          "chapter":"Fundamental Operations On Integers",
-          "topics":
-          [
-            "Subtracting using the number line",
-            "Addition/subtraction with more than 2 integers",
-            "Additive Identity",
-            "Multiplicative identity",
-            "Additive Inverse"
           ]
         }
       ],
@@ -159,7 +152,21 @@ export class AppComponent implements OnInit {
       }
       this.subjectPanels = matchingChapters;
     }
-    this.truncateTopics()
+    // Apply the filtering based on entered text to search in topics
+    if(this.searchTopic!="") {
+      let matchingChapters = []
+      for (let i = 0; i < this.subjectPanels.length; i++) {
+        for (let j = 0; j < this.subjectPanels[i].topics.length; j++) {
+          if(this.subjectPanels[i].topics[j].startsWith(this.searchTopic)) {
+            matchingChapters.push(this.subjectPanels[i]);
+            break;
+          }
+        }
+      }
+      this.subjectPanels = matchingChapters;
+    }
+    if(this.limitTopicsFlag)
+      this.limitTopics()
   }
 
   searchingTopic(evt,index) {
@@ -179,9 +186,15 @@ export class AppComponent implements OnInit {
   }
 
   // Limit the number of topics being displayed
-  truncateTopics() {
+  limitTopics() {
     for (let i = 0; i < this.subjectPanels.length; i++) {
       this.subjectPanels[i].topics.splice(5)
     }
+  }
+
+  showTopics() {
+    this.showTruncatedTopic = !this.showTruncatedTopic;
+    this.limitTopicsFlag = false;
+    this.fetchingSubjects()
   }
 }
